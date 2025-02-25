@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+  build:
+    commands:
+      - echo "Wechsel in aws-pipeline/app/"
+      - cd aws-pipeline/app
+      - echo "Building..."
+      - npm install
+      - npm run build
+artifacts:
+  files:
+    - "**/*"
+  base-directory: aws-pipeline/app/dist

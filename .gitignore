@@ -1,0 +1,12 @@
+.terraform*
+terraform.tfstate*
+node_modules
+dist
+build
+*rsa*
+*pem*
+*.pem
+inventory
+*zip*
+*tar*
+*token*

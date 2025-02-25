@@ -1,0 +1,12 @@
+---
+- name: Use Role Ansible
+  hosts: controller
+  become: true
+  roles:
+      - role: geerlingguy.ansible
+- name: Use Role Jenkins
+  hosts: controller
+  become: true
+  roles:
+      - role: geerlingguy.java
+      - role: geerlingguy.jenkins
