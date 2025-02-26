@@ -1,5 +1,5 @@
 data "external" "generate_ipfile-controller" {
-  depends_on = [module.aws-instances-server]
+  depends_on = [module.aws-instances-server, module.aws-instances-database, module.aws-instances-load-balancer, module.aws-instances-proxy, module.aws-instances-controller]
 
   program = ["bash", "-c", <<EOT
     FILE="./../type_ips"
@@ -95,23 +95,3 @@ data "external" "generate_inventory-sec" {
 
   program = ["bash", "generate_inventory.sh"]
 }
-
-
-
-
-
-
-# data "external" "ips_file" {
-#   depends_on = [module.aws-instances]
-
-#   program = ["bash", "-c", <<EOT
-#     FILE="./ips"
-#     echo -n > $FILE
-#     for ip in ${join(" ", module.aws-instances[*].public_ip)}; do
-#       echo "$ip" >> $FILE
-#     done
-
-#     echo "{\"status\": \"success\"}"
-#   EOT
-#   ]
-# }

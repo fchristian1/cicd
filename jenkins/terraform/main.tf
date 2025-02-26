@@ -56,7 +56,7 @@ module "aws-instances-controller" {
   source             = "./modules/aws_instance"
   instance_name      = "${var.projekt_name}-controller-${count.index}"
   system_type        = "controller"
-  count              = 1
+  count              = 0
   key_name           = module.key_pair.name
   security_group_ids = values(module.sg.sg_ids)
   providers = {
@@ -110,18 +110,6 @@ module "aws-instances-server" {
   }
   depends_on = [module.key_pair, module.sg]
 }
-
-## create a inventory file for ansible in ./ansible_playbook/inventory
-## with module.aws-instances.public_ip output
-# like this:
-# [web:vars]
-# ansible_ssh_user=ubuntu
-# ansible_ssh_private_key_file=./../my_key.pem
-# [web]
-# 3.127.203.17
-# 18.194.53.161
-# 35.156.175.87
-
 
 
 

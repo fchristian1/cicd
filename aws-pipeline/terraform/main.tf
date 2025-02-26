@@ -9,7 +9,8 @@ resource "random_string" "suffix" {
 }
 
 resource "aws_s3_bucket" "pipeline_artifacts" {
-  bucket = "mein-pipeline-artifacts-bucket-${random_string.suffix.result}"
+  bucket        = "mein-pipeline-artifacts-bucket-${random_string.suffix.result}"
+  force_destroy = true
 
 }
 
@@ -19,7 +20,7 @@ resource "aws_s3_bucket_public_access_block" "pipeline_artifacts" {
   block_public_policy     = false
   ignore_public_acls      = false
   restrict_public_buckets = false
-  depends_on              = [aws_s3_bucket.pipeline_artifacts, aws_s3_bucket_policy.pipeline_artifacts_policy]
+  depends_on              = [aws_s3_bucket.pipeline_artifacts]
 }
 resource "aws_s3_bucket_website_configuration" "pipeline_artifacts" {
   bucket = aws_s3_bucket.pipeline_artifacts.bucket
@@ -43,7 +44,7 @@ resource "aws_s3_bucket_policy" "pipeline_artifacts_policy" {
       }
     ]
   })
-  depends_on = [aws_s3_bucket.pipeline_artifacts]
+  depends_on = [aws_s3_bucket.pipeline_artifacts, aws_s3_bucket_public_access_block.pipeline_artifacts]
 }
 
 resource "aws_iam_role" "codepipeline_role" {
